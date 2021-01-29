@@ -13,6 +13,7 @@ public class Main extends JavaPlugin {
     @Getter
     private static InventoryManager invManager;
 
+    @Getter
     private static BungeeChannelApi bungeeChannelApi;
 
     @Override
