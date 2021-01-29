@@ -13,6 +13,8 @@ public class Main extends JavaPlugin {
     @Getter
     private static InventoryManager invManager;
 
+    private static BungeeChannelApi bungeeChannelApi;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -20,7 +22,7 @@ public class Main extends JavaPlugin {
         invManager = new InventoryManager(this);
         invManager.init();
 
-        BungeeChannelApi api = BungeeChannelApi.of(this);
+        bungeeChannelApi = BungeeChannelApi.of(this);
     }
 
     @Override
