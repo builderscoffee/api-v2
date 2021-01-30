@@ -131,6 +131,20 @@ public class ItemBuilder implements Cloneable {
     }
 
     /**
+     * Add multi lore line
+     *
+     * @param lines The lore line to add
+     */
+    public ItemBuilder addLoreLine(List<String> lines)
+    {
+        ItemMeta    im   = is.getItemMeta();
+        List<String> lore = new ArrayList<>(im.getLore());
+        im.setLore(lines);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
      * Retrieves the itemstack from the ItemBuilder.
      *
      * @return The itemstack created/modified by the ItemBuilder instance.
