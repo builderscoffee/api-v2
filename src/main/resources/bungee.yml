@@ -2,5 +2,4 @@ name: BuildersCoffeeAPI
 version: 0.1
 description: API for Builders Coffe.
 author: Ketsu_sama
-main: eu.builderscoffee.api.bukkit.Main
-startup: startup
+main: eu.builderscoffee.api.bungeecord.Main
