@@ -1,6 +1,8 @@
 package eu.builderscoffee.api.utils;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -94,6 +96,15 @@ public class ItemBuilder implements Cloneable {
     {
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(name);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    public ItemBuilder addGLow()
+    {
+        is.addUnsafeEnchantment(Enchantment.LURE,1);
+        ItemMeta im = is.getItemMeta();
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         is.setItemMeta(im);
         return this;
     }
