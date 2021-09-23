@@ -10,9 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class RedisCredentials {
 
-    @Getter
     private String clientName,ip,password;
-    @Getter
     private int port;
 
     public boolean isAuth() {
@@ -22,7 +20,4 @@ public class RedisCredentials {
     public String toRedisUrl() {
         return "redis://" + ip + ":" + port;
     }
-
-
-
 }

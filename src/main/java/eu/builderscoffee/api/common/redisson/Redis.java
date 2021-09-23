@@ -16,11 +16,17 @@ public class Redis {
     private static final HashSet<RedisTopic> topics = new HashSet<>();
     public static RedissonClient redissonClient;
 
+    /***
+     * Initialiser redisson pour la connexion
+     * @param credentials - Identifiants au network
+     * @param threadNumber - Nombres de thread
+     * @param nettyThreadsNumber - Numéro du thread netty
+     */
     public static void Initialize(@NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber){
-        final Config config = new Config();
-        config.setCodec(new JsonJacksonCodec());
-        config.setThreads(threadNumber);
-        config.setNettyThreads(nettyThreadsNumber);
+        val config = new Config()
+                .setCodec(new JsonJacksonCodec())
+                .setThreads(threadNumber)
+                .setNettyThreads(nettyThreadsNumber);
         config.useSingleServer()
                 .setAddress(credentials.toRedisUrl())
                 .setPassword(credentials.getPassword())
@@ -31,11 +37,11 @@ public class Redis {
 
     /***
      * Récupère le topic du client redisson
-     * @param topic -
+     * @param topic - Channel de message
      * @return Retourne le topic
      */
     public static RTopic getTopic(@NonNull RedisTopic topic){
-        return redissonClient.getTopic(topic.name);
+        return redissonClient.getTopic(topic.getName());
     }
 
     /***
@@ -47,32 +53,28 @@ public class Redis {
 
     /***
      * S'abonner à un topic
-     * @param <T>
-     * @param rtopics
-     * @param listener
+     * @param topic - Channel de message
+     * @param listener - Message listener
      */
-    public static <T> void subscribe(@NonNull RedisTopic rtopics, @NonNull PubSubListener listener) {
-        RTopic topic = redissonClient.getTopic(rtopics.name);
-        val regId = topic.addListener(String.class, (channel, msg) -> listener.onMessage(msg));
-        topics.add(rtopics);
+    public static void subscribe(@NonNull RedisTopic topic, @NonNull PubSubListener listener) {
+        RTopic rTopic = redissonClient.getTopic(topic.getName());
+        rTopic.addListener(String.class, (channel, msg) -> listener.onMessage(msg));
+        topics.add(topic);
     }
 
     /***
      * Se désabonner d'un topic
-     * @param topics
+     * @param topic - Channel de message
      */
-    public static void unsubscribe(@NonNull RedisTopic topics) {
-        RTopic topic = redissonClient.getTopic(topics.name);
-        topic.removeAllListeners();
+    public static void unsubscribe(@NonNull RedisTopic topic) {
+        RTopic rtopic = redissonClient.getTopic(topic.getName());
+        rtopic.removeAllListeners();
     }
 
     /***
      * Se désabonner de tout les topics
      */
     public void unsubscribeAll() {
-        topics.forEach(topics -> {
-            RTopic topic = redissonClient.getTopic(topics.name);
-            topic.removeAllListeners();
-        });
+        topics.forEach(Redis::unsubscribe);
     }
 }
