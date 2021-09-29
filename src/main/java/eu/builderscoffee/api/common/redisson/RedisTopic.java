@@ -9,6 +9,7 @@ public class RedisTopic {
     private static int Amount = 0;
 
     public static RedisTopic LOGS = new RedisTopic("logs","Logs des messages test");
+    public static RedisTopic REDISSON = new RedisTopic("redisson","Actions redisson");
 
     private int Id;
     private String name, description;

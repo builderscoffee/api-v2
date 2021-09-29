@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ChatPacket extends Packet {
+public abstract class ChatPacket extends Packet {
 
     private String serverName;
     private String playerName;

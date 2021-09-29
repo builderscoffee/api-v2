@@ -6,12 +6,12 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ServerPacket extends Packet {
+public abstract class ServerPacket extends Packet {
 
     private String serverId;
     private String serverName;
     private String hostAddress;
-    private String hostPort;
+    private int hostPort;
     private int playerCount;
     private int playerMaximum;
 

@@ -1,6 +1,7 @@
 package eu.builderscoffee.api.common.redisson;
 
 import eu.builderscoffee.api.common.redisson.listeners.PubSubListener;
+import eu.builderscoffee.api.common.redisson.packets.Packet;
 import lombok.NonNull;
 import lombok.val;
 import org.redisson.Redisson;
@@ -40,9 +41,9 @@ public class Redis {
      * @param topic - Channel de message
      * @return Retourne le topic
      */
-    public static RTopic getTopic(@NonNull RedisTopic topic){
+    /*public static RTopic getTopic(@NonNull RedisTopic topic){
         return redissonClient.getTopic(topic.getName());
-    }
+    }*/
 
     /***
      * Ferme la connexion aux client
@@ -76,5 +77,9 @@ public class Redis {
      */
     public void unsubscribeAll() {
         topics.forEach(Redis::unsubscribe);
+    }
+
+    public static void publish(RedisTopic topic, Packet packet){
+        redissonClient.getTopic(topic.getName()).publish(packet.serialize());
     }
 }
