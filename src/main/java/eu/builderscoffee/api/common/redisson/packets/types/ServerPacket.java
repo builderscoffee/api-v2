@@ -8,11 +8,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class ServerPacket extends Packet {
 
-    private String serverId;
-    private String serverName;
-    private String hostAddress;
-    private int hostPort;
-    private int playerCount;
-    private int playerMaximum;
+    protected String serverId;
+    protected String serverName;
+    protected String hostAddress;
+    protected int hostPort;
+    protected int playerCount;
+    protected int playerMaximum;
 
 }

@@ -1,7 +1,9 @@
 package eu.builderscoffee.api.common.redisson;
 
 import eu.builderscoffee.api.common.redisson.listeners.PubSubListener;
+import eu.builderscoffee.api.common.redisson.listeners.ResponseListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
+import eu.builderscoffee.api.common.redisson.packets.types.redisson.RedissonRequestPacket;
 import lombok.NonNull;
 import lombok.val;
 import org.redisson.Redisson;
@@ -10,11 +12,13 @@ import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Redis {
 
     private static final HashSet<RedisTopic> topics = new HashSet<>();
+    private static final HashMap<RedisTopic, ResponseListener> topicsWithResponseListener = new HashMap<>();
     public static RedissonClient redissonClient;
 
     /***
@@ -23,7 +27,7 @@ public class Redis {
      * @param threadNumber - Nombres de thread
      * @param nettyThreadsNumber - Numéro du thread netty
      */
-    public static void Initialize(@NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber){
+    public static void Initialize(@NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber) {
         val config = new Config()
                 .setCodec(new JsonJacksonCodec())
                 .setThreads(threadNumber)
@@ -70,6 +74,20 @@ public class Redis {
     public static void unsubscribe(@NonNull RedisTopic topic) {
         RTopic rtopic = redissonClient.getTopic(topic.getName());
         rtopic.removeAllListeners();
+        if (topicsWithResponseListener.containsKey(topic)) topicsWithResponseListener.remove(topic);
+    }
+
+    public static void publish(RedisTopic topic, Packet packet) {
+        if (packet instanceof RedissonRequestPacket) {
+            val rPacket = (RedissonRequestPacket) packet;
+            if (!topicsWithResponseListener.keySet().contains(topic)) {
+                val listener = new ResponseListener();
+                topicsWithResponseListener.put(topic, listener);
+                subscribe(topic, listener);
+            }
+            topicsWithResponseListener.get(topic).requestedPackets.put(rPacket.getPacketId(), rPacket);
+        }
+        redissonClient.getTopic(topic.getName()).publish(packet.serialize());
     }
 
     /***
@@ -77,9 +95,5 @@ public class Redis {
      */
     public void unsubscribeAll() {
         topics.forEach(Redis::unsubscribe);
-    }
-
-    public static void publish(RedisTopic topic, Packet packet){
-        redissonClient.getTopic(topic.getName()).publish(packet.serialize());
     }
 }

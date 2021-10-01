@@ -10,5 +10,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class RedissonResponsePacket extends RedissonPacket {
 
-    public String destinationServerName;
+    private String destinationServerName;
+
+    public RedissonResponsePacket(String packetId) {
+        this.packetId = packetId;
+    }
+
+    public RedissonResponsePacket(RedissonRequestPacket requestPacket) {
+        this.packetId = requestPacket.getPacketId();
+    }
 }

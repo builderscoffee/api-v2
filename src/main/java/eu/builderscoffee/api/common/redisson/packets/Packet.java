@@ -10,12 +10,6 @@ public abstract class Packet {
      * @return
      */
     protected static Gson getGson(Class<? extends Packet> clazz) {
-        /*val classes = new Reflections(Packet.class.getPackage().getName()).getSubTypesOf(Packet.class);
-        val adapter = new PacketAdapter();
-        val gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Packet.class, new PacketAdapter());
-        classes.forEach(clazz -> gsonBuilder.registerTypeAdapter(clazz, adapter));
-        return gsonBuilder.create();*/
         return new GsonBuilder().registerTypeAdapter(clazz, new PacketAdapter()).create();
     }
 

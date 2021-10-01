@@ -8,8 +8,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class ChatPacket extends Packet {
 
-    private String serverName;
-    private String playerName;
-    private String message;
+    protected String serverName;
+    protected String playerName;
+    protected String message;
 
 }

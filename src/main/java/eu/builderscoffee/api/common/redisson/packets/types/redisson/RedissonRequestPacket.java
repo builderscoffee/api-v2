@@ -4,4 +4,5 @@ import eu.builderscoffee.api.common.redisson.packets.types.RedissonPacket;
 
 public abstract class RedissonRequestPacket extends RedissonPacket {
 
+    public transient IResponse onResponse;
 }

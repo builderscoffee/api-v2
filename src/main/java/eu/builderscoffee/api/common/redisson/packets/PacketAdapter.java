@@ -5,7 +5,7 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 
 public class PacketAdapter implements JsonSerializer<Packet>, JsonDeserializer<Packet> {
-    private static Gson gson = new Gson();
+    private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssz").create();
 
     @Override
     public JsonElement serialize(Packet src, Type typeOfSrc, JsonSerializationContext context) {
