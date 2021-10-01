@@ -10,5 +10,5 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class StopServerPacket extends RedissonActionPacket {
 
-    private String newServerName;
+    protected String newServerName;
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @Accessors(chain = true)
 public class ResponsePackagesPacket extends RedissonResponsePacket {
 
-    private ArrayList<String> packages = new ArrayList<>();
+    protected ArrayList<String> packages = new ArrayList<>();
 
     public ResponsePackagesPacket(String packetId) {
         super(packetId);

@@ -13,7 +13,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class StartServerPacket extends RedissonActionPacket {
 
-    private String newServerName;
-    private String newServerPacketId;
-    private Map<String, String> newServerProperties = new HashMap<>();
+    protected String newServerName;
+    protected String newServerPacketId;
+    protected Map<String, String> newServerProperties = new HashMap<>();
 }

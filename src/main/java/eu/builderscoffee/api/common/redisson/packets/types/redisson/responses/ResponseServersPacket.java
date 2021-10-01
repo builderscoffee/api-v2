@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Accessors(chain = true)
 public class ResponseServersPacket extends RedissonResponsePacket {
 
-    private ArrayList<String> servers = new ArrayList<>();
+    protected ArrayList<String> servers = new ArrayList<>();
 
     public ResponseServersPacket(String packetId) {
         super(packetId);
