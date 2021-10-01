@@ -8,7 +8,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class StopServerPacket extends RedissonActionPacket {
+public class DeprovisionServerPacket extends RedissonActionPacket {
 
+    // TODO Find other variable name
     protected String newServerName;
 }
