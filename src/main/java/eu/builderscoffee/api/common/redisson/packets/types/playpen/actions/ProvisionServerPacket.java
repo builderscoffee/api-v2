@@ -1,6 +1,6 @@
-package eu.builderscoffee.api.common.redisson.packets.types.redisson.actions;
+package eu.builderscoffee.api.common.redisson.packets.types.playpen.actions;
 
-import eu.builderscoffee.api.common.redisson.packets.types.redisson.RedissonActionPacket;
+import eu.builderscoffee.api.common.redisson.packets.types.ActionPacket;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class ProvisionServerPacket extends RedissonActionPacket {
+public class ProvisionServerPacket extends ActionPacket {
 
     protected String newServerName;
     protected String newServerPacketId;

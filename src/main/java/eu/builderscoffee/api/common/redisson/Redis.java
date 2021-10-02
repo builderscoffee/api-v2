@@ -3,7 +3,7 @@ package eu.builderscoffee.api.common.redisson;
 import eu.builderscoffee.api.common.redisson.listeners.PubSubListener;
 import eu.builderscoffee.api.common.redisson.listeners.ResponseListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
-import eu.builderscoffee.api.common.redisson.packets.types.redisson.RedissonRequestPacket;
+import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
 import lombok.NonNull;
 import lombok.val;
 import org.redisson.Redisson;
@@ -78,8 +78,8 @@ public class Redis {
     }
 
     public static void publish(RedisTopic topic, Packet packet) {
-        if (packet instanceof RedissonRequestPacket) {
-            val rPacket = (RedissonRequestPacket) packet;
+        if (packet instanceof RequestPacket) {
+            val rPacket = (RequestPacket) packet;
             if (!topicsWithResponseListener.keySet().contains(topic)) {
                 val listener = new ResponseListener();
                 topicsWithResponseListener.put(topic, listener);

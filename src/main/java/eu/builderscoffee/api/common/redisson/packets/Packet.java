@@ -2,8 +2,23 @@ package eu.builderscoffee.api.common.redisson.packets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+import java.util.Date;
+import java.util.UUID;
+
+@Getter
+@Setter
+@Accessors(chain = true)
 public abstract class Packet {
+
+    protected String serverName = "Undefined";
+    protected String packetId = UUID.randomUUID().toString();
+    @Setter(AccessLevel.NONE)
+    private Date creationDate = new Date();
 
     /***
      * Cree un gson qui enregistre le type de class pour ne rien perde lors de la deserialisation

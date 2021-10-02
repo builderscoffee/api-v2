@@ -1,4 +1,4 @@
-package eu.builderscoffee.api.common.redisson.packets.types;
+package eu.builderscoffee.api.common.redisson.packets.types.common;
 
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import lombok.Data;
@@ -8,8 +8,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class ServerPacket extends Packet {
 
-    protected String serverId;
-    protected String serverName;
     protected String hostAddress;
     protected int hostPort;
     protected int playerCount;

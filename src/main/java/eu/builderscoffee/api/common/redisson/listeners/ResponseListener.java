@@ -1,8 +1,8 @@
 package eu.builderscoffee.api.common.redisson.listeners;
 
 import eu.builderscoffee.api.common.redisson.packets.Packet;
-import eu.builderscoffee.api.common.redisson.packets.types.redisson.RedissonRequestPacket;
-import eu.builderscoffee.api.common.redisson.packets.types.redisson.RedissonResponsePacket;
+import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
+import eu.builderscoffee.api.common.redisson.packets.types.ResponsePacket;
 import lombok.val;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class ResponseListener implements PubSubListener {
 
     private static int maxTimeToLive = 30;
-    public final HashMap<String, RedissonRequestPacket> requestedPackets = new HashMap<>();
+    public final HashMap<String, RequestPacket> requestedPackets = new HashMap<>();
 
     public ResponseListener() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -35,9 +35,9 @@ public class ResponseListener implements PubSubListener {
     public void onMessage(String json) {
         val temp = Packet.deserialize(json);
 
-        if (!(temp instanceof RedissonResponsePacket)) return;
+        if (!(temp instanceof ResponsePacket)) return;
 
-        val packet = (RedissonResponsePacket) temp;
+        val packet = (ResponsePacket) temp;
 
         if (requestedPackets.containsKey(packet.getPacketId())) {
             if (requestedPackets.get(packet.getPacketId()).onResponse != null)
