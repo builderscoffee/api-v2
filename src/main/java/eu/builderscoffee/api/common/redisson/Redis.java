@@ -4,7 +4,9 @@ import eu.builderscoffee.api.common.redisson.listeners.PubSubListener;
 import eu.builderscoffee.api.common.redisson.listeners.ResponseListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.val;
 import org.redisson.Redisson;
 import org.redisson.api.RTopic;
@@ -17,6 +19,8 @@ import java.util.HashSet;
 
 public class Redis {
 
+
+    @Getter private static String defaultServerName;
     private static final HashSet<RedisTopic> topics = new HashSet<>();
     private static final HashMap<RedisTopic, ResponseListener> topicsWithResponseListener = new HashMap<>();
     public static RedissonClient redissonClient;
@@ -27,7 +31,9 @@ public class Redis {
      * @param threadNumber - Nombres de thread
      * @param nettyThreadsNumber - Numéro du thread netty
      */
-    public static void Initialize(@NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber) {
+    public static void Initialize(@NonNull String serverName, @NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber) {
+        defaultServerName = serverName;
+
         val config = new Config()
                 .setCodec(new JsonJacksonCodec())
                 .setThreads(threadNumber)
@@ -39,15 +45,6 @@ public class Redis {
 
         redissonClient = Redisson.create(config);
     }
-
-    /***
-     * Récupère le topic du client redisson
-     * @param topic - Channel de message
-     * @return Retourne le topic
-     */
-    /*public static RTopic getTopic(@NonNull RedisTopic topic){
-        return redissonClient.getTopic(topic.getName());
-    }*/
 
     /***
      * Ferme la connexion aux client

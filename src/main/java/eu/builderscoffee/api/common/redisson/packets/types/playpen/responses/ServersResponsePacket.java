@@ -8,13 +8,14 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 public class ServersResponsePacket extends ResponsePacket {
 
-    protected ArrayList<String> servers = new ArrayList<>();
+    protected List<String> servers = new ArrayList<>();
 
     public ServersResponsePacket(String packetId) {
         super(packetId);

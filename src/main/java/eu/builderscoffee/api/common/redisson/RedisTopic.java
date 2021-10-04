@@ -1,16 +1,13 @@
 package eu.builderscoffee.api.common.redisson;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
 public class RedisTopic {
 
+    public static RedisTopic LOGS = new RedisTopic("logs", "Logs des messages test");
+    public static RedisTopic PLAYPEN = new RedisTopic("playpen", "Actions playpen");
     private static int Amount = 0;
-
-    public static RedisTopic LOGS = new RedisTopic("logs","Logs des messages test");
-    public static RedisTopic REDISSON = new RedisTopic("redisson","Actions redisson");
-
     private int Id;
     private String name, description;
 
