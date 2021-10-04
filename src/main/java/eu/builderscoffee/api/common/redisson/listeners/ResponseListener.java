@@ -1,8 +1,12 @@
 package eu.builderscoffee.api.common.redisson.listeners;
 
+import eu.builderscoffee.api.common.redisson.Redis;
+import eu.builderscoffee.api.common.redisson.events.HearBeatEventHandler;
+import eu.builderscoffee.api.common.redisson.events.HeartBeatListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
 import eu.builderscoffee.api.common.redisson.packets.types.ResponsePacket;
+import eu.builderscoffee.api.common.redisson.packets.types.common.HeartBeatPacket;
 import lombok.val;
 
 import java.util.*;
@@ -35,14 +39,14 @@ public class ResponseListener implements PubSubListener {
     public void onMessage(String json) {
         val temp = Packet.deserialize(json);
 
-        if (!(temp instanceof ResponsePacket)) return;
+        if (temp instanceof ResponsePacket) {
+            val packet = (ResponsePacket) temp;
 
-        val packet = (ResponsePacket) temp;
-
-        if (requestedPackets.containsKey(packet.getPacketId())) {
-            if (requestedPackets.get(packet.getPacketId()).onResponse != null)
-                requestedPackets.get(packet.getPacketId()).onResponse.invoke(packet);
-            requestedPackets.remove(packet.getPacketId());
+            if (requestedPackets.containsKey(packet.getPacketId())) {
+                if (requestedPackets.get(packet.getPacketId()).onResponse != null)
+                    requestedPackets.get(packet.getPacketId()).onResponse.invoke(packet);
+                requestedPackets.remove(packet.getPacketId());
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ public class RedisTopic {
 
     public static RedisTopic LOGS = new RedisTopic("logs", "Logs des messages test");
     public static RedisTopic PLAYPEN = new RedisTopic("playpen", "Actions playpen");
+    public static RedisTopic HEARTBEATS = new RedisTopic("heartbeats", "heartbeats");
     private static int Amount = 0;
     private int Id;
     private String name, description;
