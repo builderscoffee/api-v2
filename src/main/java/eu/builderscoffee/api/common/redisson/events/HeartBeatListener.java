@@ -1,5 +1,7 @@
 package eu.builderscoffee.api.common.redisson.events;
 
+import lombok.NonNull;
+
 public interface HeartBeatListener {
-    void onSendHeartBeat(HeartBeatEvent event);
+    void onSendHeartBeat(@NonNull HeartBeatEvent event);
 }

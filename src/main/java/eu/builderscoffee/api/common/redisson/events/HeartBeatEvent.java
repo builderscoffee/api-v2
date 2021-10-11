@@ -1,17 +1,18 @@
 package eu.builderscoffee.api.common.redisson.events;
 
-import eu.builderscoffee.api.common.redisson.serverinfos.ServerInfo;
+import eu.builderscoffee.api.common.redisson.serverinfos.Server;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class HeartBeatEvent {
+public final class HeartBeatEvent {
 
-    private ServerInfo serverInfo;
+    @NonNull private Server server;
     private boolean canceled = false;
 
-    public HeartBeatEvent(ServerInfo serverInfo) {
-        this.serverInfo = serverInfo;
+    public HeartBeatEvent(@NonNull Server server) {
+        this.server = server;
     }
 }

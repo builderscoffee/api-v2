@@ -6,7 +6,6 @@ import eu.builderscoffee.api.common.redisson.Redis;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,12 +13,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 public abstract class Packet {
 
     @Setter(AccessLevel.NONE)
     protected String serverName = Redis.getDefaultServerName();
     protected String packetId = UUID.randomUUID().toString();
+    protected String targetServerName;
     @Setter(AccessLevel.NONE)
     private Date creationDate = new Date();
 
@@ -27,7 +26,7 @@ public abstract class Packet {
      * Cree un gson qui enregistre le type de class pour ne rien perde lors de la deserialisation
      * @return
      */
-    protected static Gson getGson(Class<? extends Packet> clazz) {
+    protected final static Gson getGson(Class<? extends Packet> clazz) {
         return new GsonBuilder().registerTypeAdapter(clazz, new PacketAdapter()).create();
     }
 
@@ -38,7 +37,7 @@ public abstract class Packet {
      * @param <T> - L'object dépendent de la classe du packet donnée
      * @return - Retourne l'object du packet
      */
-    public static <T extends Packet> T deserialize(String json, Class<T> clazz) {
+    public final static <T extends Packet> T deserialize(String json, Class<T> clazz) {
         return getGson(clazz).fromJson(json, clazz);
     }
 
@@ -47,7 +46,7 @@ public abstract class Packet {
      * @param json - Message à désérialiser
      * @return - Retourne l'object du packet
      */
-    public static Packet deserialize(String json) {
+    public final static Packet deserialize(String json) {
         return getGson(Packet.class).fromJson(json, Packet.class);
     }
 
@@ -55,7 +54,7 @@ public abstract class Packet {
      * Sérialiser un packet en Gson
      * @return - Retourne le json
      */
-    public String serialize() {
+    public final String serialize() {
         return getGson(getClass()).toJson(this);
     }
 

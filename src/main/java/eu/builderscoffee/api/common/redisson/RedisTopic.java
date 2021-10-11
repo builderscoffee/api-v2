@@ -3,7 +3,7 @@ package eu.builderscoffee.api.common.redisson;
 import lombok.Getter;
 
 @Getter
-public class RedisTopic {
+public final class RedisTopic {
 
     public static RedisTopic LOGS = new RedisTopic("logs", "Logs des messages test");
     public static RedisTopic PLAYPEN = new RedisTopic("playpen", "Actions playpen");

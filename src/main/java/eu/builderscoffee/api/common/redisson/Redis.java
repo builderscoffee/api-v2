@@ -6,7 +6,7 @@ import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
+import lombok.experimental.UtilityClass;
 import lombok.val;
 import org.redisson.Redisson;
 import org.redisson.api.RTopic;
@@ -17,13 +17,14 @@ import org.redisson.config.Config;
 import java.util.HashMap;
 import java.util.HashSet;
 
+@UtilityClass
 public class Redis {
 
 
-    @Getter private static String defaultServerName;
     private static final HashSet<RedisTopic> topics = new HashSet<>();
     private static final HashMap<RedisTopic, ResponseListener> topicsWithResponseListener = new HashMap<>();
-    public static RedissonClient redissonClient;
+    @Getter private static RedissonClient redissonClient;
+    @Getter private static String defaultServerName;
 
     /***
      * Initialiser redisson pour la connexion

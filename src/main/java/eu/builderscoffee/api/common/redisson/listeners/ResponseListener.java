@@ -1,18 +1,14 @@
 package eu.builderscoffee.api.common.redisson.listeners;
 
-import eu.builderscoffee.api.common.redisson.Redis;
-import eu.builderscoffee.api.common.redisson.events.HearBeatEventHandler;
-import eu.builderscoffee.api.common.redisson.events.HeartBeatListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
 import eu.builderscoffee.api.common.redisson.packets.types.ResponsePacket;
-import eu.builderscoffee.api.common.redisson.packets.types.common.HeartBeatPacket;
 import lombok.val;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class ResponseListener implements PubSubListener {
+public final class ResponseListener implements PubSubListener {
 
     private static int maxTimeToLive = 30;
     public final HashMap<String, RequestPacket> requestedPackets = new HashMap<>();

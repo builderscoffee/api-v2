@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Configuration(value = "redis")
-public class RedisCredentials {
+public final class RedisCredentials {
 
     private String clientName = "",ip = "",password = "";
     private int port;
