@@ -1,6 +1,7 @@
 package eu.builderscoffee.api.common.redisson;
 
-import eu.builderscoffee.api.common.redisson.listeners.PubSubListener;
+import eu.builderscoffee.api.common.redisson.listeners.PacketListener;
+import eu.builderscoffee.api.common.redisson.listeners.ProcessPacket;
 import eu.builderscoffee.api.common.redisson.listeners.ResponseListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
@@ -14,6 +15,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -59,9 +61,28 @@ public class Redis {
      * @param topic - Channel de message
      * @param listener - Message listener
      */
-    public static void subscribe(@NonNull RedisTopic topic, @NonNull PubSubListener listener) {
+    public static void subscribe(@NonNull RedisTopic topic, @NonNull PacketListener listener) {
+        // Récupère le topic
         RTopic rTopic = redissonClient.getTopic(topic.getName());
-        rTopic.addListener(String.class, (channel, msg) -> listener.onMessage(msg));
+        // Ajoute un listener sur le topic
+        rTopic.addListener(String.class, (channel, msg) -> {
+            // Deserialise le packet
+            val packet = Packet.deserialize(msg);
+            // Loop toutes les fonctions du packetlistener
+            for (Method method : listener.getClass().getDeclaredMethods()) {
+                // Check si une des fonctions correspond au packet envoyé
+                if(method.isAnnotationPresent(ProcessPacket.class)
+                        && method.getParameterTypes().length == 1
+                        && method.getParameterTypes()[0].isAssignableFrom(packet.getClass())){
+                    try {
+                        // Invoke la fonction en donnant le packet
+                        method.invoke(listener, packet);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         topics.add(topic);
     }
 
@@ -76,15 +97,22 @@ public class Redis {
     }
 
     public static void publish(RedisTopic topic, Packet packet) {
+        // Check si c'est une demande qui attend une réponse
         if (packet instanceof RequestPacket) {
             val rPacket = (RequestPacket) packet;
+            // Check si ce topic à déja un listener pour les réponses
             if (!topicsWithResponseListener.keySet().contains(topic)) {
+                // Creer un listener
                 val listener = new ResponseListener();
+                // Ajoute le listener dans une map
                 topicsWithResponseListener.put(topic, listener);
+                // Ajoute le listener à redisson
                 subscribe(topic, listener);
             }
+            // Ajoute le packet dans une map en attente d'une réponse
             topicsWithResponseListener.get(topic).requestedPackets.put(rPacket.getPacketId(), rPacket);
         }
+        // Envoi le packet dans le topic
         redissonClient.getTopic(topic.getName()).publish(packet.serialize());
     }
 
