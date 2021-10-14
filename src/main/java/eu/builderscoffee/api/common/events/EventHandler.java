@@ -34,7 +34,7 @@ public final class EventHandler {
         listeners.forEach(listener -> {
             for (Method method : listener.getClass().getDeclaredMethods()) {
                 // Check si une des fonctions correspond à l'event envoyé
-                if(method.isAnnotationPresent(ProcessPacket.class)
+                if(method.isAnnotationPresent(ProcessEvent.class)
                         && method.getParameterTypes().length == 1
                         && method.getParameterTypes()[0].isAssignableFrom(event.getClass())){
                     try {
