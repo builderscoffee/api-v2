@@ -11,6 +11,18 @@
 
     <name>BuildersCoffeeAPI</name>
 
+    <profiles>
+        <profile>
+            <id>github</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub BuildersCoffee Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/builderscoffee/builderscoffeeapi</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
     <properties>
         <java.version>1.8</java.version>
