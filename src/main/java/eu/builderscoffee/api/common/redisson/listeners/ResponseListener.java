@@ -30,6 +30,7 @@ public final class ResponseListener implements PacketListener {
         }, maxTimeToLive * 1000, maxTimeToLive * 1000);
     }
 
+    @ProcessPacket
     public void anyResponsePacket(ResponsePacket packet){
         if (requestedPackets.containsKey(packet.getPacketId())) {
             if (requestedPackets.get(packet.getPacketId()).onResponse != null)

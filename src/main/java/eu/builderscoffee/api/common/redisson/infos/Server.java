@@ -1,4 +1,4 @@
-package eu.builderscoffee.api.common.redisson.serverinfos;
+package eu.builderscoffee.api.common.redisson.infos;
 
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.api.common.redisson.RedisTopic;
@@ -6,12 +6,9 @@ import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.Depro
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.ProvisionServerPacket;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import lombok.val;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -26,6 +23,7 @@ public class Server implements Comparable<Server> {
     protected ServerType serverType;
     protected ServerStatus serverStatus;
     protected ServerStartingMethod startingMethod;
+    //protected Map<String, Object> properties = new TreeMap<>();
 
     public enum ServerStatus{
         NONE,

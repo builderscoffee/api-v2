@@ -1,13 +1,6 @@
 package eu.builderscoffee.api.common.events;
 
-import eu.builderscoffee.api.common.events.events.HeartBeatEvent;
-import eu.builderscoffee.api.common.redisson.Redis;
-import eu.builderscoffee.api.common.redisson.listeners.ProcessPacket;
-import eu.builderscoffee.api.common.redisson.serverinfos.Server;
 import lombok.NonNull;
-import lombok.val;
-import org.bukkit.Bukkit;
-import org.redisson.api.RSortedSet;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
