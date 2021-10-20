@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public final class ResponseListener implements PacketListener {
 
     private static int maxTimeToLive = 30;
-    public final HashMap<String, RequestPacket> requestedPackets = new HashMap<>();
+    public final HashMap<String, RequestPacket<ResponsePacket>> requestedPackets = new HashMap<>();
 
     public ResponseListener() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
