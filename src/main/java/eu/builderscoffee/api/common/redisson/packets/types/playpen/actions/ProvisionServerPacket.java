@@ -13,5 +13,6 @@ public class ProvisionServerPacket extends ActionPacket {
 
     protected String newServerName;
     protected String newServerPacketId;
+    protected String newServerVersion;
     protected Map<String, String> newServerProperties = new HashMap<>();
 }

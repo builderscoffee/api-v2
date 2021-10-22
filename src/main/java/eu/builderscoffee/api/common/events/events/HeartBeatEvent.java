@@ -4,10 +4,8 @@ import eu.builderscoffee.api.common.events.Event;
 import eu.builderscoffee.api.common.redisson.infos.Server;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 @Getter
-@Setter
 public final class HeartBeatEvent extends Event {
 
     @NonNull private Server server;

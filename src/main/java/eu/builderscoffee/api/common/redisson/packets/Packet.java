@@ -6,13 +6,15 @@ import eu.builderscoffee.api.common.redisson.Redis;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-@Getter
 @Setter
+@Getter
+@Accessors(chain = true)
 public abstract class Packet {
 
     @Setter(AccessLevel.NONE)

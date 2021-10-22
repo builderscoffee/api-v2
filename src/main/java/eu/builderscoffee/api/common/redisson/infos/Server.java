@@ -6,24 +6,26 @@ import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.Depro
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.ProvisionServerPacket;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.val;
 
 import java.util.*;
 
-@Getter
 @Setter
-public class Server implements Comparable<Server> {
+@Getter
+@Accessors(chain = true)
+public final class Server implements Comparable<Server> {
 
-    protected String hostName;
-    protected String hostAddress;
-    protected int hostPort;
-    protected int playerCount;
-    protected int playerMaximum;
-    protected Date lastHeartbeat = new Date();
-    protected ServerType serverType;
-    protected ServerStatus serverStatus;
-    protected ServerStartingMethod startingMethod;
-    //protected Map<String, Object> properties = new TreeMap<>();
+    private String hostName;
+    private String hostAddress;
+    private int hostPort;
+    private int playerCount;
+    private int playerMaximum;
+    private Date lastHeartbeat = new Date();
+    private ServerType serverType = ServerType.NONE;
+    private ServerStatus serverStatus = ServerStatus.NONE;
+    private ServerStartingMethod startingMethod = ServerStartingMethod.NONE;
+    private Map<String, Object> properties = new TreeMap<>();
 
     public enum ServerStatus{
         NONE,
