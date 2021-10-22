@@ -3,8 +3,10 @@ package eu.builderscoffee.api.common.redisson.infos;
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.api.common.redisson.RedisTopic;
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.DeprovisionServerPacket;
+import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.FreezeServerPacket;
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.ProvisionServerPacket;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.val;
@@ -47,14 +49,9 @@ public final class Server implements Comparable<Server> {
         BUNGEECORD
     }
 
-    public final void start(String packetId){
-        val packet = new ProvisionServerPacket();
-        packet.setNewServerPacketId(packetId);
-        packet.setNewServerName(getHostName());
-        val properties = new HashMap<String, String>();
-        properties.put("ip", getHostAddress());
-        properties.put("port", String.valueOf(getHostPort()));
-        packet.setNewServerProperties(properties);
+    public final void freeze(){
+        val packet = new FreezeServerPacket();
+        packet.setTargetServerName(getHostName());
 
         Redis.publish(RedisTopic.PLAYPEN, packet);
     }
