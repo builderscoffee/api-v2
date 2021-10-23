@@ -4,19 +4,20 @@ import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.api.common.redisson.RedisTopic;
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.DeprovisionServerPacket;
 import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.FreezeServerPacket;
-import eu.builderscoffee.api.common.redisson.packets.types.playpen.actions.ProvisionServerPacket;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.val;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 @Setter
 @Getter
 @Accessors(chain = true)
-public final class Server implements Comparable<Server> {
+public class Server implements Comparable<Server> {
 
     private String hostName;
     private String hostAddress;
