@@ -1,6 +1,6 @@
-# Builders Coffee API
-
 <div id="top"></div>
+
+# Builders Coffee API
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -26,13 +26,16 @@
   </ol>
 </details>
 
-## Redisson
 <div id="redisson"></div>
+
+## Redisson
 
 You need to know that the most important actions are in the [Redis class](https://github.com/builderscoffee/builderscoffeeapi/blob/main/src/main/java/eu/builderscoffee/api/common/redisson/Redis.java)
 
-### Connection
+
 <div id="redisson-connection"></div>
+
+### Connection
 First of all you need to initialize a connection to the Redisson Server.
 
 ```java
@@ -45,15 +48,17 @@ RedisCredentials credentials = new RedisCredentials()
 Redis.Initialize("Instance name", credentials, 0, 0);
 ```
 
-### Creating topics
 <div id="redisson-topics"></div>
+
+### Creating topics
 
 ```java
 RedisTopic redisTopic = new RedisTopic("name", "description");
 ```
 
-### Listeners
 <div id="redisson-listeners"></div>
+
+### Listeners
 
 ```java
 Listener listener = new Listener();
@@ -83,8 +88,9 @@ public class Listener implements PacketListener {
 }
 ```
 
-### Packets
 <div id="redisson-packets"></div>
+
+### Packets
 
 There are 3 types of packets:
 * ActionPackets: Can only send information
@@ -143,11 +149,13 @@ Redis.publish(redisTopic, responsePacket);
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Events
 <div id="events"></div>
 
-### Create an event
+## Events
+
 <div id="events-event"></div>
+
+### Create an event
 
 ```java
 public class TestEvent extends Event {
@@ -159,15 +167,17 @@ public class TestEvent extends Event {
 TestEvent event = new TestEvent();
 ```
 
-### Call an Event
 <div id="events-callevent"></div>
+
+### Call an Event
 
 ```java
 EventHandler.getInstance().callEvent(event);
 ```
 
-### Listeners
 <div id="events-listeners"></div>
+
+### Listeners
 
 ```java
 Listener listener = new Listener();
@@ -195,3 +205,5 @@ public static class TestListener implements EventListener{
     }
 }
 ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
