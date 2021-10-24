@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+/**
+ * This class stores configuration about Redisson
+ */
 @Data
 @Accessors(chain = true)
 @Configuration(value = "redis")

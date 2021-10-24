@@ -2,6 +2,9 @@ package eu.builderscoffee.api.common.redisson;
 
 import lombok.Getter;
 
+/**
+ * This class is used to create/store channels in redisson
+ */
 @Getter
 public final class RedisTopic {
 
@@ -13,6 +16,10 @@ public final class RedisTopic {
     private int Id;
     private String name, description;
 
+    /**
+     * @param name Channel name
+     * @param description Channel description
+     */
     public RedisTopic(String name, String description) {
         this.Id = Amount++;
         this.name = name;

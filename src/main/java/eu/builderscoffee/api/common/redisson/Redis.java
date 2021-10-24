@@ -28,11 +28,11 @@ public class Redis {
     @Getter private static RedissonClient redissonClient;
     @Getter private static String defaultServerName;
 
-    /***
-     * Initialiser redisson pour la connexion
-     * @param credentials - Identifiants au network
-     * @param threadNumber - Nombres de thread
-     * @param nettyThreadsNumber - Numéro du thread netty
+    /**
+     * Initialize redisson for connection
+     * @param credentials Redisson credentials
+     * @param threadNumber Number of threads
+     * @param nettyThreadsNumber Number of netty threads
      */
     public static void Initialize(@NonNull String serverName, @NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber) {
         defaultServerName = serverName;
@@ -56,8 +56,8 @@ public class Redis {
         redissonClient.shutdown();
     }
 
-    /***
-     * S'abonner à un topic
+    /**
+     * Subscribe to a {@link RedisTopic}
      * @param topic - Channel de message
      * @param listener - Message listener
      */
@@ -86,9 +86,9 @@ public class Redis {
         topics.add(topic);
     }
 
-    /***
-     * Se désabonner d'un topic
-     * @param topic - Channel de message
+    /**
+     * Unsubscribe from a {@link RedisTopic}
+     * @param topic Channel
      */
     public static void unsubscribe(@NonNull RedisTopic topic) {
         RTopic rtopic = redissonClient.getTopic(topic.getName());
@@ -96,6 +96,11 @@ public class Redis {
         if (topicsWithResponseListener.containsKey(topic)) topicsWithResponseListener.remove(topic);
     }
 
+    /**
+     * Publish packet to a {@link RedisTopic}
+     * @param topic Channel where send
+     * @param packet Packet to send
+     */
     public static void publish(RedisTopic topic, Packet packet) {
         // Check si c'est une demande qui attend une réponse
         if (packet instanceof RequestPacket) {
@@ -117,7 +122,7 @@ public class Redis {
     }
 
     /***
-     * Se désabonner de tout les topics
+     * Unsubscribe to all channels
      */
     public void unsubscribeAll() {
         topics.forEach(Redis::unsubscribe);

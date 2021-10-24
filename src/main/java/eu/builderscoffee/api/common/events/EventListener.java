@@ -1,6 +1,12 @@
 package eu.builderscoffee.api.common.events;
 
-import lombok.NonNull;
-
+/**
+ * Example:
+ *
+ * @ProcessEvent
+ * public void onAnyNameYouWantForTheMethod(Event event){
+ *     // Do something here
+ * }
+ */
 public interface EventListener {
 }

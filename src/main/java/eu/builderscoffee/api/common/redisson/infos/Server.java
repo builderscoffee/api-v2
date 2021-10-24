@@ -11,9 +11,12 @@ import lombok.val;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
+/**
+ * This class stores a server information after a {@link eu.builderscoffee.api.common.redisson.packets.types.common.HeartBeatPacket}
+ * has been send.
+ */
 @Setter
 @Getter
 @Accessors(chain = true)
@@ -28,7 +31,7 @@ public class Server implements Comparable<Server> {
     private ServerType serverType = ServerType.NONE;
     private ServerStatus serverStatus = ServerStatus.NONE;
     private ServerStartingMethod startingMethod = ServerStartingMethod.NONE;
-    private Map<String, Object> properties = new TreeMap<>();
+    private Map<String, String> properties = new TreeMap<>();
 
     public enum ServerStatus{
         NONE,
@@ -72,20 +75,5 @@ public class Server implements Comparable<Server> {
     @Override
     public String toString() {
         return hostName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        System.out.println("Equals");
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Server that = (Server) o;
-        System.out.println("Equals: " + (hostPort == that.hostPort && Objects.equals(hostAddress, that.hostAddress)));
-        return hostPort == that.hostPort && Objects.equals(hostAddress, that.hostAddress);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hostAddress, hostPort);
     }
 }

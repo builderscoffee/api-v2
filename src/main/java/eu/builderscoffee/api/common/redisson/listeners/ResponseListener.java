@@ -7,6 +7,10 @@ import lombok.val;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is used to make a listener if a request has been send
+ * and invokes {@link eu.builderscoffee.api.common.redisson.packets.types.IResponse} for automatic reply
+ */
 public final class ResponseListener implements PacketListener {
 
     private static int maxTimeToLive = 30;

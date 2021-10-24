@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Common base packet
+ */
 @Setter
 @Getter
 @Accessors(chain = true)
@@ -24,7 +27,7 @@ public abstract class Packet {
     @Setter(AccessLevel.NONE)
     private Date creationDate = new Date();
 
-    /***
+    /**
      * Cree un gson qui enregistre le type de class pour ne rien perde lors de la deserialisation
      * @return
      */
@@ -32,29 +35,28 @@ public abstract class Packet {
         return new GsonBuilder().registerTypeAdapter(clazz, new PacketAdapter()).create();
     }
 
-    /***
-     * Désérialiser un packet en Gson
-     * @param json - Message à désérialiser
-     * @param clazz - Class du packet
-     * @param <T> - L'object dépendent de la classe du packet donnée
-     * @return - Retourne l'object du packet
+    /**
+     * Deserialize a json to a packet
+     * @param json Json to deserialize
+     * @param clazz Packet type
+     * @return Returns the deserialized packet
      */
     public final static <T extends Packet> T deserialize(String json, Class<T> clazz) {
         return getGson(clazz).fromJson(json, clazz);
     }
 
-    /***
-     * Désérialiser un packet en Gson
-     * @param json - Message à désérialiser
-     * @return - Retourne l'object du packet
+    /**
+     * Deserialize a json to a packet
+     * @param json Json to deserialize
+     * @return Returns the deserialized packet
      */
     public final static Packet deserialize(String json) {
         return getGson(Packet.class).fromJson(json, Packet.class);
     }
 
-    /***
-     * Sérialiser un packet en Gson
-     * @return - Retourne le json
+    /**
+     * Serialize a packet to json
+     * @return - Returns the json
      */
     public final String serialize() {
         return getGson(getClass()).toJson(this);

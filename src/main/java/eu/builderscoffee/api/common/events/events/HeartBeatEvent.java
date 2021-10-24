@@ -8,7 +8,7 @@ import lombok.NonNull;
 @Getter
 public final class HeartBeatEvent extends Event {
 
-    @NonNull private Server server;
+    private Server server;
 
     public HeartBeatEvent(@NonNull Server server) {
         this.server = server;
