@@ -15,6 +15,14 @@
         <li><a href="#redisson-packets">Packets</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#events">Events</a>
+      <ul>
+        <li><a href="#events-event">Create an event</a></li>
+        <li><a href="#events-callevent">Call an event</a></li>
+        <li><a href="#events-listeners">Listeners</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -48,8 +56,10 @@ RedisTopic redisTopic = new RedisTopic("name", "description");
 <div id="redisson-listeners"></div>
 
 ```java
+Listener listener = new Listener();
+
 // Add listeners
-Redis.subscribe(redisTopic, new Listener());
+Redis.subscribe(redisTopic, listener);
 
 // Remove listeners
 Redis.unsubscribe(redisTopic);
@@ -135,3 +145,53 @@ Redis.publish(redisTopic, responsePacket);
 
 ## Events
 <div id="events"></div>
+
+### Create an event
+<div id="events-event"></div>
+
+```java
+public class TestEvent extends Event {
+    // Some variables if wanted
+}
+```
+
+```java
+TestEvent event = new TestEvent();
+```
+
+### Call an Event
+<div id="events-callevent"></div>
+
+```java
+EventHandler.getInstance().callEvent(event);
+```
+
+### Listeners
+<div id="events-listeners"></div>
+
+```java
+Listener listener = new Listener();
+
+// Add listeners
+EventHandler.getInstance().addListener(listener);
+
+// remove listeners
+EventHandler.getInstance().removeListener(listener);
+```
+
+Listener.class
+```java
+public static class TestListener implements EventListener{
+    // This will listen to any event
+    @ProcessPacket
+    public void onAnyNameYouWantForTheMethod(Event event) {
+        // Do something here
+    }
+
+    // This will listen to any TestEvent and sub classes
+    @ProcessPacket
+    public void onAnyNameYouWantForTheMethod(TestEvent event) {
+        // Do something here
+    }
+}
+```
