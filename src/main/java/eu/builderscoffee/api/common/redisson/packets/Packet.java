@@ -21,7 +21,7 @@ import java.util.UUID;
 public abstract class Packet {
 
     @Setter(AccessLevel.NONE)
-    protected String serverName = Redis.getDefaultServerName();
+    protected String serverName = Redis.getServerName();
     protected String packetId = UUID.randomUUID().toString();
     protected String targetServerName;
     @Setter(AccessLevel.NONE)

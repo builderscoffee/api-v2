@@ -133,7 +133,7 @@ How to send packets:
 SpecificActionPacket actionPacket = new SpecificActionPacket();
 Redis.publish(redisTopic, actionPacket);
 
-// Send actions packets
+// Send request packets
 SpecificRequestPacket requestPacket = new SpecificRequestPacket();
 // Do action when it has a response
 requestPacket.onResponse = response -> {
@@ -141,8 +141,8 @@ requestPacket.onResponse = response -> {
 };
 Redis.publish(redisTopic, requestPacket);
         
-// Send actions packets
-SpecificActionPacket responsePacket = new SpecificActionPacket();
+// Send response packets
+SpecificResponsePacket responsePacket = new SpecificResponsePacket(requestPacket);
 Redis.publish(redisTopic, responsePacket);
 ```
 

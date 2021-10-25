@@ -5,10 +5,8 @@ import eu.builderscoffee.api.common.redisson.listeners.ProcessPacket;
 import eu.builderscoffee.api.common.redisson.listeners.ResponseListener;
 import eu.builderscoffee.api.common.redisson.packets.Packet;
 import eu.builderscoffee.api.common.redisson.packets.types.RequestPacket;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.UtilityClass;
-import lombok.val;
 import org.redisson.Redisson;
 import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
@@ -18,6 +16,7 @@ import org.redisson.config.Config;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 @UtilityClass
 public class Redis {
@@ -26,7 +25,7 @@ public class Redis {
     private static final HashSet<RedisTopic> topics = new HashSet<>();
     private static final HashMap<RedisTopic, ResponseListener> topicsWithResponseListener = new HashMap<>();
     @Getter private static RedissonClient redissonClient;
-    @Getter private static String defaultServerName;
+    @Getter @Setter(AccessLevel.PRIVATE) private static String serverName;
 
     /**
      * Initialize redisson for connection
@@ -35,7 +34,7 @@ public class Redis {
      * @param nettyThreadsNumber Number of netty threads
      */
     public static void Initialize(@NonNull String serverName, @NonNull RedisCredentials credentials, int threadNumber, int nettyThreadsNumber) {
-        defaultServerName = serverName;
+        setServerName(serverName);
 
         val config = new Config()
                 .setCodec(new JsonJacksonCodec())
@@ -62,20 +61,24 @@ public class Redis {
      * @param listener - Message listener
      */
     public static void subscribe(@NonNull RedisTopic topic, @NonNull PacketListener listener) {
-        // Récupère le topic
+        // Get the ropic
         RTopic rTopic = redissonClient.getTopic(topic.getName());
-        // Ajoute un listener sur le topic
+        // Add a listener of the topic
         rTopic.addListener(String.class, (channel, msg) -> {
-            // Deserialise le packet
+            // Deserialize the packet
             val packet = Packet.deserialize(msg);
-            // Loop toutes les fonctions du packetlistener
+
+            // Check if the packet is for this server
+            if(Objects.nonNull(packet.getTargetServerName()) && !packet.getTargetServerName().equals(serverName)) return;
+
+            // Loop all methods of the listener
             for (Method method : listener.getClass().getDeclaredMethods()) {
-                // Check si une des fonctions correspond au packet envoyé
+                // Check if function corresponds to the packet
                 if(method.isAnnotationPresent(ProcessPacket.class)
                         && method.getParameterTypes().length == 1
                         && method.getParameterTypes()[0].isAssignableFrom(packet.getClass())){
                     try {
-                        // Invoke la fonction en donnant le packet
+                        // Invoke the method
                         method.invoke(listener, packet);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -102,22 +105,22 @@ public class Redis {
      * @param packet Packet to send
      */
     public static void publish(RedisTopic topic, Packet packet) {
-        // Check si c'est une demande qui attend une réponse
+        // Check if the packet needs to have a response
         if (packet instanceof RequestPacket) {
             val rPacket = (RequestPacket) packet;
-            // Check si ce topic à déja un listener pour les réponses
+            // Check if a listener already exist for responses
             if (!topicsWithResponseListener.keySet().contains(topic)) {
-                // Creer un listener
+                // Create the listener
                 val listener = new ResponseListener();
-                // Ajoute le listener dans une map
+                // Add the listener into the map
                 topicsWithResponseListener.put(topic, listener);
-                // Ajoute le listener à redisson
+                // Add the listener to redisson
                 subscribe(topic, listener);
             }
-            // Ajoute le packet dans une map en attente d'une réponse
+            // Add the packet to the map where is waiting for a response
             topicsWithResponseListener.get(topic).requestedPackets.put(rPacket.getPacketId(), rPacket);
         }
-        // Envoi le packet dans le topic
+        // Send the packet
         redissonClient.getTopic(topic.getName()).publish(packet.serialize());
     }
 
