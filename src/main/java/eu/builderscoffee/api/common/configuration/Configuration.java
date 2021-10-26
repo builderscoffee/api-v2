@@ -17,10 +17,10 @@ import java.util.Map;
 public class Configuration {
 
     /**
-     * Créer la config avec la structure indiqué dans le dossier du plugin spécifié.
-     *
-     //* @param plugin    Plugin
-     //* @param structure Structure
+     * Read or create a config file on disk from a class structure
+     * @param pluginName Plugin name
+     * @param structure Class of config structure
+     * @return Returns the config file instance
      */
     @SneakyThrows
     public <T> T readOrCreateConfiguration(@NonNull String pluginName, @NonNull Class<T> structure) {
@@ -37,6 +37,13 @@ public class Configuration {
         return readOrCreateConfiguration(pluginName, structure, configName);
     }
 
+    /**
+     * Read or create a config file with multiple models on disk from a class structure
+     * @param pluginName Plugin name
+     * @param structure Class of config structure
+     * @param models Enum of models
+     * @return Returns a map with keys as model and value as the config file's instance
+     */
     public <X extends Enum<?>, Y> Map<X, Y> readOrCreateConfiguration(@NonNull String pluginName, @NonNull Class<Y> structure, @NonNull Class<X> models){
         Map<X, Y> map = new HashMap<>();
 
@@ -60,6 +67,13 @@ public class Configuration {
         return map;
     }
 
+    /**
+     * Read or create a config file with a specific model on disk from a class structure
+     * @param pluginName Plugin name
+     * @param structure Class of config structure
+     * @param model The specified model
+     * @return Returns the config file instance
+     */
     public <X extends Enum<?>, Y> Y readOrCreateConfiguration(@NonNull String pluginName, @NonNull Class<Y> structure, @NonNull X model){
         if (!structure.isAnnotationPresent(eu.builderscoffee.api.common.configuration.annotation.Configuration.class))
             throw new RuntimeException("Tried to load a non-annotated configuration");
@@ -74,6 +88,13 @@ public class Configuration {
         return readOrCreateConfiguration(pluginName + "/" + configName, structure, configName + "_" + model.toString().toLowerCase() + ".yml");
     }
 
+    /**
+     * Read or create the config file on the disk
+     * @param pluginName Plugin name
+     * @param structure Class of config structure
+     * @param configName The name of the config file
+     * @return Returns the config file instance
+     */
     @SneakyThrows
     private <T> T readOrCreateConfiguration(@NonNull String pluginName, @NonNull Class<T> structure, @NonNull String configName){
         val pluginPath = Paths.get("plugins", pluginName, configName);
@@ -93,11 +114,9 @@ public class Configuration {
     }
 
     /**
-     * Ecrit la configuration avec les valeurs contenue dans l'instance spécifiée.
-     *
-     //* @param plugin Plugin
-     * @param configuration Configuration
-     * @param <T> Type de la configuration
+     * Writes down the config file on the disk
+     * @param pluginName Plugin name
+     * @param configuration The config instance to write
      */
     @SneakyThrows
     public <T> void writeConfiguration(@NonNull String pluginName, @NonNull T configuration) {
@@ -115,11 +134,22 @@ public class Configuration {
         writeConfiguration(pluginName, configuration, configName);
     }
 
+    /**
+     * Writes down the config files on the disk
+     * @param pluginName Plugin name
+     * @param map The map that contains the models as keys and config file instances as value
+     */
     @SneakyThrows
     public <X extends Enum<?>, Y> void writeConfiguration(String pluginName, Map<X, Y> map) {
         map.keySet().forEach(value -> writeConfiguration(pluginName, map, value));
     }
 
+    /**
+     * Writes down the config file on the disk
+     * @param pluginName Plugin name
+     * @param map The map that contains the models as keys and config file instances as value
+     * @param model The specific model to write
+     */
     @SneakyThrows
     public <X extends Enum<?>, Y> void writeConfiguration(String pluginName, Map<X, Y> map, X model) {
         val structure = map.get(model).getClass();
@@ -136,6 +166,12 @@ public class Configuration {
         writeConfiguration(pluginName + "/" + configName, map.get(model), configName + "_" + model.toString().toLowerCase() + ".yml");
     }
 
+    /**
+     * Writes down the config file on the disk
+     * @param pluginName Plugin name
+     * @param configuration The config instance to write
+     * @param configName The config file name
+     */
     @SneakyThrows
     private <T> void writeConfiguration(String pluginName, T configuration, String configName){
         val pluginPath = Paths.get("plugins", pluginName, configName);
