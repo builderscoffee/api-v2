@@ -8,6 +8,10 @@ import lombok.Setter;
 @Setter
 public abstract class ResponsePacket extends Packet {
 
+
+    protected ResponsePacket() {
+    }
+
     public ResponsePacket(String packetId) {
         this.packetId = packetId;
     }
