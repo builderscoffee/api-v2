@@ -64,10 +64,7 @@ public class Redis {
         // Get the ropic
         RTopic rTopic = redissonClient.getTopic(topic.getName());
         // Add a listener of the topic
-        rTopic.addListener(String.class, (channel, msg) -> {
-            // Deserialize the packet
-            val packet = Packet.deserialize(msg);
-
+        rTopic.addListener(Packet.class, (channel, packet) -> {
             // Check if the packet is for this server
             if(Objects.nonNull(packet.getTargetServerName()) && !packet.getTargetServerName().equals(serverName)) return;
 
@@ -121,7 +118,7 @@ public class Redis {
             topicsWithResponseListener.get(topic).requestedPackets.put(rPacket.getPacketId(), rPacket);
         }
         // Send the packet
-        redissonClient.getTopic(topic.getName()).publish(packet.serialize());
+        redissonClient.getTopic(topic.getName()).publish(packet);
     }
 
     /***
