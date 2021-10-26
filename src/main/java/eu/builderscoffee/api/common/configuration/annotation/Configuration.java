@@ -13,5 +13,9 @@ public @interface Configuration {
      * @return Le nom du fichier généré, si le String est vide,
      */
     String value() default "";
+    Class<? extends Enum<?>>[] models() default {SigleModel.class};
 
+    enum SigleModel{
+        DEFAULT
+    }
 }
