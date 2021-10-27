@@ -23,6 +23,14 @@
         <li><a href="#events-listeners">Listeners</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#configuration">Configuration files (yml)</a>
+      <ul>
+        <li><a href="#configuration-create">Create a config file</a></li>
+        <li><a href="#configuration-read-or-create">Read or create config</a></li>
+        <li><a href="#configuration-write-or-overwrite">Write or overwrite configuration</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -204,6 +212,77 @@ public static class TestListener implements EventListener{
         // Do something here
     }
 }
+```
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<div id="configuration"></div>
+
+## Configuration files (yml)
+
+<div id="configuration-create"></div>
+
+### Create a config file
+
+```java
+import eu.builderscoffee.api.common.configuration.annotation.Configuration;
+import lombok.Data;
+
+@Data
+@Configuration
+public class ExampleConfig {
+    String mySecretPassword = "default value";
+}
+
+@Data
+@Configuration(value = "mySpecificConfigFileName")
+public class ExampleConfig {
+    // some variables
+}
+```
+
+<div id="configuration-read-or-create"></div>
+
+### Read or create configuration
+
+#### Without enums
+
+```java
+// Read sigle config
+ExampleConfig config = Configuration.readOrCreateConfiguration("pluginFolderName", ExampleConfig.class);
+```
+
+#### With enums
+```java
+public enum MyEnum {
+    A_VALUE,
+    OTHER_VALUE
+}
+```
+
+```java
+// Read sigle config from enum
+ExampleConfig config = Configuration.readOrCreateConfiguration("pluginFolderName", ExampleConfig.class, MyEnum.A_VALUE);
+
+// Read multiple configs from enum
+Map<MyEnum, ExampleConfig> configs = Configuration.readOrCreateConfiguration("pluginFolderName", ExampleConfig.class, MyEnum.class);
+```
+
+<div id="configuration-write-or-overwrite"></div>
+
+### Write or overwrite configuration
+
+```java
+// Write single config
+ExampleConfig config = ...;
+Configuration.writeConfiguration("pluginFolderName", config);
+
+// Write single configs specified with enum
+Map<MyEnum, ExampleConfig> configs = ...;
+Configuration.writeConfiguration("pluginFolderName", configs, MyEnum.A_VALUE);
+
+// Write multiple configs
+Map<MyEnum, ExampleConfig> configs = ...;
+Configuration.writeConfiguration("pluginFolderName", configs);
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
