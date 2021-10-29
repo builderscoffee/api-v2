@@ -98,19 +98,24 @@ public class Configuration {
     @SneakyThrows
     private <T> T readOrCreateConfiguration(@NonNull String pluginName, @NonNull Class<T> structure, @NonNull String configName){
         val pluginPath = Paths.get("plugins", pluginName, configName);
+        final T instance;
         if(!Files.exists(pluginPath)) {
+            instance = structure.newInstance();
             Files.createDirectories(pluginPath.getParent());
             Files.createFile(pluginPath);
-            Files.write(
-                    pluginPath,
-                    Serializations.serialize(structure.newInstance()).getBytes(StandardCharsets.UTF_8)
+        }
+        else{
+            instance = Serializations.deserialize(
+                    new String(Files.readAllBytes(pluginPath), StandardCharsets.UTF_8),
+                    structure
             );
         }
 
-        return Serializations.deserialize(
-                new String(Files.readAllBytes(pluginPath), StandardCharsets.UTF_8),
-                structure
+        Files.write(
+                pluginPath,
+                Serializations.serialize(instance).getBytes(StandardCharsets.UTF_8)
         );
+        return instance;
     }
 
     /**
