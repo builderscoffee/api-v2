@@ -2,14 +2,13 @@ package eu.builderscoffee.api.bukkit;
 
 import eu.builderscoffee.api.bukkit.bungeecord.BungeeChannelApi;
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
-import eu.builderscoffee.api.common.redisson.Redis;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class BuildersCoffeeAPI extends JavaPlugin {
 
     @Getter
-    private static Main instance;
+    private static BuildersCoffeeAPI instance;
 
     @Getter
     private static InventoryManager invManager;

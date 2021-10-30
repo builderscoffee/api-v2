@@ -3,10 +3,10 @@ package eu.builderscoffee.api.bungeecord;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
-public class Main extends Plugin {
+public class BuildersCoffeeAPI extends Plugin {
 
     @Getter
-    private static Main instance;
+    private static BuildersCoffeeAPI instance;
 
     @Override
     public void onEnable() {

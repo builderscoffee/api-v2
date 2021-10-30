@@ -1,6 +1,6 @@
 package eu.builderscoffee.api.bukkit.gui;
 
-import eu.builderscoffee.api.bukkit.Main;
+import eu.builderscoffee.api.bukkit.BuildersCoffeeAPI;
 import eu.builderscoffee.api.bukkit.gui.content.InventoryContents;
 import eu.builderscoffee.api.bukkit.gui.content.InventoryProvider;
 import eu.builderscoffee.api.bukkit.gui.opener.InventoryOpener;
@@ -158,7 +158,7 @@ public class SmartInventory {
             if(this.provider == null)
                 throw new IllegalStateException("The provider of the SmartInventory.Builder must be set.");
 
-            InventoryManager manager = this.manager != null ? this.manager : Main.getInvManager();
+            InventoryManager manager = this.manager != null ? this.manager : BuildersCoffeeAPI.getInvManager();
 
             if(manager == null)
                 throw new IllegalStateException("The manager of the SmartInventory.Builder must be set, "
