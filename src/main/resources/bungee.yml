@@ -1,5 +1,5 @@
 name: BuildersCoffeeAPI
 version: 0.1
 description: API for Builders Coffe.
-author: Ketsu_sama
-main: eu.builderscoffee.api.bungeecord.Main
+author: BuildersCoffee_Team
+main: eu.builderscoffee.api.bungeecord.BuildersCoffeeAPI
