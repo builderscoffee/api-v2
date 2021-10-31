@@ -40,6 +40,10 @@ public interface InventoryContents {
     InventoryContents fillColumn(int column, ClickableItem item);
     InventoryContents fillBorders(ClickableItem item);
 
+    InventoryContents fillSquare(int fromRow, int fromColumn,
+                               int toRow, int toColumn, ClickableItem item);
+    InventoryContents fillSquare(SlotPos fromPos, SlotPos toPos, ClickableItem item);
+
     InventoryContents fillRect(int fromRow, int fromColumn,
                                int toRow, int toColumn, ClickableItem item);
     InventoryContents fillRect(SlotPos fromPos, SlotPos toPos, ClickableItem item);
@@ -194,6 +198,22 @@ public interface InventoryContents {
         public InventoryContents fillBorders(ClickableItem item) {
             fillRect(0, 0, inv.getRows() - 1, inv.getColumns() - 1, item);
             return this;
+        }
+
+        @Override
+        public InventoryContents fillSquare(int fromRow, int fromColumn, int toRow, int toColumn, ClickableItem item) {
+            for(int row = fromRow; row <= toRow; row++) {
+                for(int column = fromColumn; column <= toColumn; column++) {
+                    set(row, column, item);
+                }
+            }
+
+            return this;
+        }
+
+        @Override
+        public InventoryContents fillSquare(SlotPos fromPos, SlotPos toPos, ClickableItem item) {
+            return fillSquare(fromPos.getRow(), fromPos.getColumn(), toPos.getRow(), toPos.getColumn(), item);
         }
 
         @Override
