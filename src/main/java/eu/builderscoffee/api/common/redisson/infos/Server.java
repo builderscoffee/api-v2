@@ -62,7 +62,7 @@ public class Server implements Comparable<Server> {
 
     public final void stop(){
         val packet = new DeprovisionServerPacket();
-        packet.setTargetServerName(getHostName());
+        packet.setServerToStop(getHostName());
 
         Redis.publish(RedisTopic.PLAYPEN, packet);
     }
