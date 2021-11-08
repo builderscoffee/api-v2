@@ -35,6 +35,7 @@ public class Server implements Comparable<Server> {
 
     public enum ServerStatus{
         NONE,
+        STARTING,
         RUNNING,
         WAITING_PLAYERS,
         WAITING_INFO,
