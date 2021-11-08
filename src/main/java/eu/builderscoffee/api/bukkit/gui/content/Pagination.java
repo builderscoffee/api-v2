@@ -8,6 +8,7 @@ import java.util.Arrays;
 public interface Pagination {
 
     ClickableItem[] getPageItems();
+    ClickableItem[] getItems();
 
     int getPage();
     Pagination page(int page);
@@ -38,6 +39,11 @@ public interface Pagination {
             return Arrays.copyOfRange(items,
                     currentPage * itemsPerPage,
                     (currentPage + 1) * itemsPerPage);
+        }
+
+        @Override
+        public ClickableItem[] getItems() {
+            return items;
         }
 
         @Override
