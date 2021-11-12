@@ -6,7 +6,6 @@
 
     <groupId>eu.builderscoffee</groupId>
     <artifactId>builderscoffeeapi</artifactId>
-    <version>${projectVersion}</version>
     <packaging>jar</packaging>
 
     <name>BuildersCoffeeAPI</name>
@@ -28,10 +27,7 @@
         </profile>
     </profiles>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <version>${projectversion}</version>
 
     <scm>
         <url>https://github.com/builderscoffee/builderscoffeeapi</url>
@@ -179,8 +175,8 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.30</version>
         </dependency>
-             
-         <!-- https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator -->
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator -->
         <dependency>
             <groupId>com.fasterxml.uuid</groupId>
             <artifactId>java-uuid-generator</artifactId>
