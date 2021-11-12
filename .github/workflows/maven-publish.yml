@@ -61,7 +61,7 @@ jobs:
       - uses: avides/actions-project-version-check@v1.2.0
         id: actions_project_version_check
         with:
-          token: ${{ secrets.INFRA_TOKEN }}
+          token: ${{ secrets.GIT_PASSWORD }}
           file-to-check: pom.xml
 
       - name: use-version-from-check
