@@ -7,6 +7,7 @@
     <groupId>eu.builderscoffee</groupId>
     <artifactId>builderscoffeeapi</artifactId>
     <packaging>jar</packaging>
+    <version>1.0</version>
 
     <name>BuildersCoffeeAPI</name>
 
@@ -15,19 +16,27 @@
             <id>prod</id>
             <properties>
                 <envClassifier>prod</envClassifier>
-                <projectVersion>1.1</projectVersion>
             </properties>
         </profile>
         <profile>
             <id>dev</id>
+            <activation>
+                <property>
+                    <name>actionSkip</name>
+                    <value>true</value>
+                </property>
+            </activation>
             <properties>
                 <envClassifier>dev</envClassifier>
-                <projectVersion>1.0-SNAPSHOT</projectVersion>
+                <restriction.actionType>${actionSkip}</restriction.actionType>
             </properties>
         </profile>
     </profiles>
 
-    <version>${projectversion}</version>
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <scm>
         <url>https://github.com/builderscoffee/builderscoffeeapi</url>
@@ -75,14 +84,64 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.10</version>
+                <executions>
+                    <execution>
+                        <id>build-helper-regex-is-snapshot-used</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>actionSkip</name>
+                            <value>${project.version}</value>
+                            <regex>.*-SNAPSHOT</regex>
+                            <replacement>true</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <useReleaseProfile>false</useReleaseProfile>
-                </configuration>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>create-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <skipSource>${actionSkip}</skipSource>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <executions>
+                    <execution>
+                        <id>create-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${actionSkip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
         </plugins>
         <resources>
             <resource>
