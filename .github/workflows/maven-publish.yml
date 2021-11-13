@@ -60,7 +60,7 @@ jobs:
 
       # Build Production
       - name: Build with Maven Production
-        run: mvn --batch-mode -B package --file pom.xml
+        run: mvn package
 
       # Publish jar to infrastructure
       - name: Publish
