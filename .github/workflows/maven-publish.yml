@@ -64,7 +64,6 @@ jobs:
       - name: Build with Maven
         id: maven_build
         run: |
-          echo "Check branche before package"
           if [ "${{ steps.branch_check.outputs.env_name }}" = "Production" ]; then
           echo mvm --batch-mode -B -Pprod package --file pom.xml
           echo "::set-output name=env_jar::prod"
