@@ -1,6 +1,6 @@
-name: BuildersCoffeeAPI
+name: API
 version: 0.1
 description: API for Builders Coffe.
-author: BuildersCoffee_Team
+author: BuildersCoffee
 main: eu.builderscoffee.api.bukkit.BuildersCoffeeAPI
 startup: startup
