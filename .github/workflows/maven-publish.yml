@@ -66,13 +66,13 @@ jobs:
         run: |
           echo "Check branche before package"
           if [ "${{ steps.branch_check.outputs.env_name }}" = "Production" ]; then
-          echo "mvm --batch-mode -B -Pprod package --file pom.xml"
+          echo mvm --batch-mode -B -Pprod package --file pom.xml
           echo "::set-output name=env_jar::prod"
           elif [ "${{ steps.branch_check.outputs.env_name }}" = Developpement" ]; then
-          echo "mvm --batch-mode -B -Pdev package --file pom.xml"
+          echo mvm --batch-mode -B -Pdev package --file pom.xml
           echo "::set-output name=env_jar::dev"
           else
-          echo "mvm package"
+          echo mvm package
           fi
 
       # Publish jar to infrastructure
