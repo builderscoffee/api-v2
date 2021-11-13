@@ -59,14 +59,14 @@ jobs:
           fi
 
       # Build Production
-      - name: Build with Maven
+      - name: Build with Maven Production
         if: "${{ steps.branch_check.outputs.env_name }}" = "Production"
         run: |
         mvm --batch-mode -B -Pprod package --file pom.xml
         echo "::set-output name=env_jar::prod"
 
       # Build Developpement
-      - name: Build with Maven
+      - name: Build with Maven Developpement
         if: "${{ steps.branch_check.outputs.env_name }}" = Developpement"
         run: |
           mvm --batch-mode -B -Pdev package --file pom.xml
