@@ -15,20 +15,16 @@
         <profile>
             <id>prod</id>
             <properties>
-                <envClassifier>prod</envClassifier>
+                <profileActive>prod</profileActive>
             </properties>
         </profile>
         <profile>
             <id>dev</id>
             <activation>
-                <property>
-                    <name>actionSkip</name>
-                    <value>true</value>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <envClassifier>dev</envClassifier>
-                <restriction.actionType>${actionSkip}</restriction.actionType>
+                <profileActive>dev</profileActive>
             </properties>
         </profile>
     </profiles>
@@ -44,6 +40,7 @@
         <developerConnection>scm:git:ssh://git@github.com/builderscoffee/builderscoffeeapi.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
     <distributionManagement>
         <repository>
             <id>github</id>
@@ -58,6 +55,7 @@
     </distributionManagement>
 
     <build>
+        <finalName>${project.name}-${project.version}-${profileActive}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -97,7 +95,7 @@
                             <goal>regex-property</goal>
                         </goals>
                         <configuration>
-                            <name>actionSkip</name>
+                            <name>action.skip</name>
                             <value>${project.version}</value>
                             <regex>.*-SNAPSHOT</regex>
                             <replacement>true</replacement>
@@ -119,24 +117,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <skipSource>${actionSkip}</skipSource>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
-                <executions>
-                    <execution>
-                        <id>create-javadoc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${actionSkip}</skip>
+                            <skipSource>${action.skip}</skipSource>
                         </configuration>
                     </execution>
                 </executions>

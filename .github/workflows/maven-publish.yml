@@ -26,7 +26,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          cache: maven
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
@@ -63,17 +62,18 @@ jobs:
 
       # Build using Maven
       - name: Build with Maven
-        run: mvn --batch-mode -B -Pgithub-prod package --file pom.xml
-
-      # Check Pom Version
-      - uses: avides/actions-project-version-check@v1.2.0
-        id: actions_project_version_check
-        with:
-          token: ${{ secrets.GIT_PASSWORD }}
-          file-to-check: pom.xml
-
-      - name: use-version-from-check
-        run: echo "New version is ${{ steps.actions_project_version_check.outputs.version }}"
+        id: maven_build
+        run: |
+          echo "Check branche before package"
+          if [ "${{ steps.branch_check.outputs.env_name }}" = "Production" ]; then
+          echo "mvm --batch-mode -B -Pprod package --file pom.xml"
+          echo "::set-output name=env_jar::prod"
+          elif [ "${{ steps.branch_check.outputs.env_name }}" = Developpement" ]; then
+          echo "mvm --batch-mode -B -Pdev package --file pom.xml"
+          echo "::set-output name=env_jar::dev"
+          else
+          echo "mvm package"
+          fi
 
       # Publish jar to infrastructure
       - name: Publish
@@ -82,16 +82,16 @@ jobs:
         with:
           url: 'http://54.36.124.50:3000/'
           data: '{"type": "api" ,"version": "${{ steps.branch_check.outputs.env_name }}" }'
-          files: '{ "file": "${{ github.workspace }}/target/builderscoffeeapi-${{ steps.actions_project_version_check.outputs.version }}.jar" }'
+          files: '{ "file": "${{ github.workspace }}/target/BuildersCoffeeAPI-1.0.jar" }'
           username: ${{ secrets.INFRA_USER }}
           password: ${{ secrets.INFRA_PASSWORD }}
 
       # Deploy Package to Github
       - name: Publish to GitHub Packages Apache Maven
-        # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         run: mvn --batch-mode -B -Pgithub-prod deploy
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_TOKEN }}
 
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }} # Save branche name
+      env_jar: ${{ steps.maven_build.outputs.env_jar }} # Save jar version
