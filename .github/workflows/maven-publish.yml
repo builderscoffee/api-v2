@@ -65,13 +65,13 @@ jobs:
         id: maven_build
         run: |
           if [ "${{ steps.branch_check.outputs.env_name }}" = "Production" ]; then
-          echo mvm --batch-mode -B -Pprod package --file pom.xml
+          mvm --batch-mode -B -Pprod package --file pom.xml
           echo "::set-output name=env_jar::prod"
           elif [ "${{ steps.branch_check.outputs.env_name }}" = Developpement" ]; then
-          echo mvm --batch-mode -B -Pdev package --file pom.xml
+          mvm --batch-mode -B -Pdev package --file pom.xml
           echo "::set-output name=env_jar::dev"
           else
-          echo mvm package
+          mvm package
           fi
 
       # Publish jar to infrastructure
