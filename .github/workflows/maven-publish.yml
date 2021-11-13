@@ -58,7 +58,7 @@ jobs:
           echo "::set-output name=env_name::Features"
           fi
 
-      # Build Production
+      # Build Maven Package
       - name: Build with Maven Production
         run: mvn package
 
@@ -69,7 +69,7 @@ jobs:
         with:
           url: 'http://54.36.124.50:3000/'
           data: '{"type": "api" ,"version": "${{ steps.branch_check.outputs.env_name }}" }'
-          files: '{ "file": "${{ github.workspace }}/target/BuildersCoffeeAPI.jar" }'
+          files: '{ "file": "${{ github.workspace }}/target/API.jar" }'
           username: ${{ secrets.INFRA_USER }}
           password: ${{ secrets.INFRA_PASSWORD }}
 
