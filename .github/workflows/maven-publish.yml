@@ -60,7 +60,6 @@ jobs:
 
       # Build Production
       - name: Build with Maven
-        id: maven_build_prod
         if: "${{ steps.branch_check.outputs.env_name }}" = "Production"
         run: |
         mvm --batch-mode -B -Pprod package --file pom.xml
@@ -68,7 +67,6 @@ jobs:
 
       # Build Developpement
       - name: Build with Maven
-        id: maven_build_dev
         if: "${{ steps.branch_check.outputs.env_name }}" = Developpement"
         run: |
           mvm --batch-mode -B -Pdev package --file pom.xml
