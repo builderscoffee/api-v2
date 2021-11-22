@@ -18,7 +18,8 @@ public abstract class Cosmetique {
     @Key @ManyToOne
     ProfilEntity profil;
 
-    @Column(length = 32)
-    @Key
-    String name;
+    @Column(name = "id_text")
+    @ForeignKey(update = ReferentialAction.CASCADE, referencedColumn = "id_text")
+    @ManyToOne
+    TranslationEntity textId;
 }

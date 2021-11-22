@@ -17,8 +17,10 @@ public abstract class BuildbattleTheme {
     @Key @Generated
     int id;
 
-    @Column(nullable = false, unique = true, length = 32)
-    String name;
+    @Column(name = "id_text")
+    @ForeignKey(update = ReferentialAction.CASCADE, referencedColumn = "id_text")
+    @ManyToOne
+    TranslationEntity textId;
 
     /* Links to other entity */
 
