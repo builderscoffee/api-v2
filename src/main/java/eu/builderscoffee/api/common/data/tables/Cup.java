@@ -20,10 +20,8 @@ public abstract class Cup {
     @Generated
     int id;
 
-    @Column(name = "id_text")
-    @ForeignKey(update = ReferentialAction.CASCADE, referencedColumn = "id_text")
-    @ManyToOne
-    TranslationEntity textId;
+    @Column
+    String name;
 
     @Column(name = "begin_date", nullable = false)
     Timestamp beginDate;
