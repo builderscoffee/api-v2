@@ -17,10 +17,11 @@ public abstract class BuildbattleTheme {
     @Key @Generated
     int id;
 
-    @Column(nullable = false, unique = true, length = 32)
-    String name;
 
     /* Links to other entity */
+
+    @OneToMany(mappedBy = "id_theme")
+    MutableResult<BuildbattleThemeNamesEntity> names;
 
     @OneToMany(mappedBy = "id_theme")
     MutableResult<BuildbattleEntity> buildbattles;
