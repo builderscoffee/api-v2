@@ -20,6 +20,7 @@ public class DataManager {
     @Getter private static EntityDataStore<Ban> bansStore;
     @Getter private static EntityDataStore<Note> notesStore;
     @Getter private static EntityDataStore<BuildbattleTheme> buildbattleThemeStore;
+    @Getter private static EntityDataStore<BuildbattleThemeName> buildbattleThemeNameStore;
     @Getter private static EntityDataStore<BuildbattleType> expressoTypseStore;
     @Getter private static EntityDataStore<Buildbattle> buildbattlesStore;
     @Getter private static EntityDataStore<Saison> saisonsStore;
@@ -41,6 +42,7 @@ public class DataManager {
         saisonsStore = new EntityDataStore<>(hikari, Models.DEFAULT);
         bansStore = new EntityDataStore<>(hikari, Models.DEFAULT);
         buildbattleThemeStore = new EntityDataStore<>(hikari, Models.DEFAULT);
+        buildbattleThemeNameStore = new EntityDataStore<>(hikari, Models.DEFAULT);
         expressoTypseStore = new EntityDataStore<>(hikari, Models.DEFAULT);
         buildbattlesStore = new EntityDataStore<>(hikari, Models.DEFAULT);
         profilStore = new EntityDataStore<>(hikari, Models.DEFAULT);
