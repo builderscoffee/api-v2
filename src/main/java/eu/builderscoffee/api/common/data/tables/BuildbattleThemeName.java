@@ -1,16 +1,15 @@
 package eu.builderscoffee.api.common.data.tables;
 
 import io.requery.*;
-import io.requery.query.MutableResult;
 import lombok.ToString;
 
 /***
- * {@link BuildbattleThemeNames} est l'objet utilisé pour stocker thèmes de Buildbattles.
+ * {@link BuildbattleThemeName} est l'objet utilisé pour stocker thèmes de Buildbattles.
  */
 @Entity
 @Table(name = "buildbattles_themes_names")
 @ToString
-public abstract class BuildbattleThemeNames {
+public abstract class BuildbattleThemeName {
 
     /* Columns */
 

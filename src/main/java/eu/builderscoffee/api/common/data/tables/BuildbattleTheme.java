@@ -21,7 +21,7 @@ public abstract class BuildbattleTheme {
     /* Links to other entity */
 
     @OneToMany(mappedBy = "id_theme")
-    MutableResult<BuildbattleThemeNamesEntity> names;
+    MutableResult<BuildbattleThemeNameEntity> names;
 
     @OneToMany(mappedBy = "id_theme")
     MutableResult<BuildbattleEntity> buildbattles;
