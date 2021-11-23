@@ -19,7 +19,7 @@ public abstract class BuildbattleThemeName {
     @Column(name = "id_theme", nullable = false)
     @ForeignKey(update = ReferentialAction.CASCADE, referencedColumn = "id")
     @ManyToOne
-    BuildbattleThemeEntity cup;
+    BuildbattleThemeEntity theme;
 
     @Column
     Profil.Languages language;
