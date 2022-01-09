@@ -1,5 +1,6 @@
 package eu.builderscoffee.api.bukkit.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemBuilder implements Cloneable {
     private ItemStack is;
@@ -20,8 +22,7 @@ public class ItemBuilder implements Cloneable {
      * @param material The material to create the ItemBuilder with.
      */
     @ConstructorProperties({"material"})
-    public ItemBuilder(Material material)
-    {
+    public ItemBuilder(Material material) {
         this(material, 1);
     }
 
@@ -30,8 +31,7 @@ public class ItemBuilder implements Cloneable {
      *
      * @param is The itemstack to create the ItemBuilder over.
      */
-    public ItemBuilder(ItemStack is)
-    {
+    public ItemBuilder(ItemStack is) {
         this.is = is;
     }
 
@@ -41,8 +41,7 @@ public class ItemBuilder implements Cloneable {
      * @param m      The material of the item.
      * @param amount The amount of the item.
      */
-    public ItemBuilder(Material m, int amount)
-    {
+    public ItemBuilder(Material m, int amount) {
         is = new ItemStack(m, amount);
     }
 
@@ -51,10 +50,9 @@ public class ItemBuilder implements Cloneable {
      *
      * @param m      The material of the item.
      * @param amount The amount of the item.
-     * @param data data like color, alternative.
+     * @param data   data like color, alternative.
      */
-    public ItemBuilder(Material m, int amount, short data)
-    {
+    public ItemBuilder(Material m, int amount, short data) {
         is = new ItemStack(m, amount, data);
     }
 
@@ -63,14 +61,13 @@ public class ItemBuilder implements Cloneable {
      *
      * @param m      The material of the item.
      * @param amount The amount of the item.
-     * @param data data like color, alternative.
-     * @param owner owner of the head.
+     * @param data   data like color, alternative.
+     * @param owner  owner of the head.
      */
-    public ItemBuilder(Material m, int amount, short data, String owner)
-    {
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+    public ItemBuilder(Material m, int amount, short data, UUID owner) {
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-        skullMeta.setOwner(owner);
+        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(owner));
         skull.setItemMeta(skullMeta);
         is = skull;
     }
@@ -81,8 +78,7 @@ public class ItemBuilder implements Cloneable {
      * @return The cloned instance.
      */
     @Override
-    public ItemBuilder clone()
-    {
+    public ItemBuilder clone() {
         return new ItemBuilder(is);
     }
 
@@ -92,8 +88,7 @@ public class ItemBuilder implements Cloneable {
      * @param name The name to change it to.
      * @return
      */
-    public ItemBuilder setName(String name)
-    {
+    public ItemBuilder setName(String name) {
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(name);
         is.setItemMeta(im);
@@ -105,9 +100,8 @@ public class ItemBuilder implements Cloneable {
      *
      * @return
      */
-    public ItemBuilder addGLow()
-    {
-        is.addUnsafeEnchantment(Enchantment.LURE,1);
+    public ItemBuilder addGLow() {
+        is.addUnsafeEnchantment(Enchantment.LURE, 1);
         ItemMeta im = is.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         is.setItemMeta(im);
@@ -119,10 +113,9 @@ public class ItemBuilder implements Cloneable {
      *
      * @param line The lore line to add.
      */
-    public ItemBuilder addLoreLine(String line)
-    {
-        ItemMeta     im   = is.getItemMeta();
-        List<String> lore = im.hasLore()? new ArrayList<>(im.getLore()) : new ArrayList<>();
+    public ItemBuilder addLoreLine(String line) {
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = im.hasLore() ? new ArrayList<>(im.getLore()) : new ArrayList<>();
         lore.add(line);
         im.setLore(lore);
         is.setItemMeta(im);
@@ -135,10 +128,9 @@ public class ItemBuilder implements Cloneable {
      * @param line The lore line to add.
      * @param pos  The index of where to put it.
      */
-    public ItemBuilder addLoreLine(String line, int pos)
-    {
-        ItemMeta     im   = is.getItemMeta();
-        List<String> lore = im.hasLore()? new ArrayList<>(im.getLore()) : new ArrayList<>();
+    public ItemBuilder addLoreLine(String line, int pos) {
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = im.hasLore() ? new ArrayList<>(im.getLore()) : new ArrayList<>();
         lore.set(pos, line);
         im.setLore(lore);
         is.setItemMeta(im);
@@ -150,10 +142,9 @@ public class ItemBuilder implements Cloneable {
      *
      * @param lines The lore line to add
      */
-    public ItemBuilder addLoreLine(List<String> lines)
-    {
-        ItemMeta     im   = is.getItemMeta();
-        List<String> lore = im.hasLore()? new ArrayList<>(im.getLore()) : new ArrayList<>();
+    public ItemBuilder addLoreLine(List<String> lines) {
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = im.hasLore() ? new ArrayList<>(im.getLore()) : new ArrayList<>();
         lore.addAll(lines);
         im.setLore(lore);
         is.setItemMeta(im);
@@ -165,8 +156,7 @@ public class ItemBuilder implements Cloneable {
      *
      * @return The itemstack created/modified by the ItemBuilder instance.
      */
-    public ItemStack build()
-    {
+    public ItemStack build() {
         return is;
     }
 }
