@@ -52,6 +52,7 @@ public class ItemBuilder implements Cloneable {
      * @param amount The amount of the item.
      * @param data   data like color, alternative.
      */
+    @Deprecated
     public ItemBuilder(Material m, int amount, short data) {
         is = new ItemStack(m, amount, data);
     }

@@ -100,7 +100,7 @@ public class Configuration {
         val pluginPath = Paths.get("plugins", pluginName, configName);
         final T instance;
         if(!Files.exists(pluginPath)) {
-            instance = structure.newInstance();
+            instance = structure.getDeclaredConstructor().newInstance();
             Files.createDirectories(pluginPath.getParent());
             Files.createFile(pluginPath);
         }

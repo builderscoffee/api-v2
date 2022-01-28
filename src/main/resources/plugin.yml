@@ -4,3 +4,5 @@ description: API for Builders Coffe.
 author: BuildersCoffee
 main: eu.builderscoffee.api.bukkit.BuildersCoffeeAPI
 startup: startup
+softdepend: [ Commons ]
+api-version: 1.18
