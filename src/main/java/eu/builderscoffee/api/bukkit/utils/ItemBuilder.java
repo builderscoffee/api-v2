@@ -97,6 +97,18 @@ public class ItemBuilder implements Cloneable {
     }
 
     /**
+     * Set custom model data
+     *
+     * @return
+     */
+    public ItemBuilder setCustomModelData(int modelData) {
+        ItemMeta im = is.getItemMeta();
+        im.setCustomModelData(modelData);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
      * Make item glow
      *
      * @return

@@ -72,29 +72,32 @@ public class Title {
     public void send(Player player) {
         Preconditions.checkNotNull(player);
         try {
-            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
-            Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
+            Object craftplayer = player.getClass().getMethod("getHandle").invoke(player);
+            Object entityPlayer = craftplayer.getClass().getField("b").get(craftplayer);
+            Object playerConnection = entityPlayer.getClass().getField("a").get(entityPlayer);
             // NMS Classes
-            Class<?> clsPacketPlayOutTitle = ServerPackage.MINECRAFT.getClass("PacketPlayOutTitle");
-            Class<?> clsPacket = ServerPackage.MINECRAFT.getClass("Packet");
-            Class<?> clsIChatBaseComponent = ServerPackage.MINECRAFT.getClass("IChatBaseComponent");
-            Class<?> clsChatSerializer = ServerPackage.MINECRAFT.getClass("IChatBaseComponent$ChatSerializer");
-            Class<?> clsEnumTitleAction = ServerPackage.MINECRAFT.getClass("PacketPlayOutTitle$EnumTitleAction");
-            Object timesPacket = clsPacketPlayOutTitle.getConstructor(int.class, int.class, int.class).newInstance(fadeIn, stay, fadeOut);
-            playerConnection.getClass().getMethod("sendPacket", clsPacket).invoke(playerConnection, timesPacket);
+            Class<?> clientboundSetTitleTextPacket = Class.forName("net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket");
+            Class<?> clientboundSetSubtitleTextPacket = Class.forName("net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket");
+            Class<?> ClientboundSetTitlesAnimationPacket = Class.forName("net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket");
+            Class<?> clsPacket = Class.forName("net.minecraft.network.protocol.Packet");
+            Class<?> clsIChatBaseComponent = Class.forName("net.minecraft.network.chat.IChatBaseComponent");
+            Class<?> clsChatSerializer = Class.forName("net.minecraft.network.chat.IChatBaseComponent$ChatSerializer");
+            Object timesPacket = ClientboundSetTitlesAnimationPacket.getConstructor(int.class, int.class, int.class).newInstance(fadeIn, stay, fadeOut);
+            playerConnection.getClass().getMethod("a", clsPacket).invoke(playerConnection, timesPacket);
             // Play the title packet
             if (title != null && !title.isEmpty()) {
                 Object titleComponent = clsChatSerializer.getMethod("a", String.class).invoke(null, title.toString());
-                Object titlePacket = clsPacketPlayOutTitle.getConstructor(clsEnumTitleAction, clsIChatBaseComponent).newInstance(clsEnumTitleAction.getField("TITLE").get(null), titleComponent);
-                playerConnection.getClass().getMethod("sendPacket", clsPacket).invoke(playerConnection, titlePacket);
+                Object titlePacket = clientboundSetTitleTextPacket.getConstructor(clsIChatBaseComponent).newInstance(titleComponent);
+                playerConnection.getClass().getMethod("a", clsPacket).invoke(playerConnection, titlePacket);
             }
             // Play the subtitle packet
             if (subtitle != null && !subtitle.isEmpty()) {
                 Object subtitleComponent = clsChatSerializer.getMethod("a", String.class).invoke(null, subtitle.toString());
-                Object subtitlePacket = clsPacketPlayOutTitle.getConstructor(clsEnumTitleAction, clsIChatBaseComponent).newInstance(clsEnumTitleAction.getField("SUBTITLE").get(null), subtitleComponent);
-                playerConnection.getClass().getMethod("sendPacket", clsPacket).invoke(playerConnection, subtitlePacket);
+                Object subtitlePacket = clientboundSetSubtitleTextPacket.getConstructor(clsIChatBaseComponent).newInstance(subtitleComponent);
+                playerConnection.getClass().getMethod("a", clsPacket).invoke(playerConnection, subtitlePacket);
             }
         } catch (Throwable e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

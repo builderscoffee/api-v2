@@ -16,7 +16,7 @@ import java.util.Map;
 @UtilityClass
 public class ItemSerialisationUtils {
 
-    public static String serialize(@NonNull ItemStack item) throws IllegalStateException {
+    public static String serialize(@NonNull ItemStack item) {
         try {
             val outputStream = new ByteArrayOutputStream();
             val dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -30,11 +30,12 @@ public class ItemSerialisationUtils {
         }
     }
 
-    public static ItemStack deserialize(@NonNull String data) throws IOException {
+    public static ItemStack deserialize(@NonNull String data) {
         try (val dataInput = new BukkitObjectInputStream(new ByteArrayInputStream(Base64Coder.decodeLines(data)))) {
             return ItemStack.deserialize((Map<String, Object>) dataInput.readObject());
-        } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 }
